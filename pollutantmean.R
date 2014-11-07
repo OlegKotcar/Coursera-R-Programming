@@ -12,8 +12,9 @@ Pollutantmean <- function(directory, pollutant, id = 1:332){
     else {
       filename <- paste(c(id[i],".csv"), collapse="")
     }
+    print(id[i])
     print(paste(c(path,filename),collapse=""))
     dataframe <- c(dataframe, read.csv(paste(c(path,filename),collapse="")))
   }            
- mean(dataframe[["sulfate"]], na.rm=TRUE )
+ round (mean(dataframe[[pollutant]], na.rm=TRUE ), 3)
 }
