@@ -1,4 +1,4 @@
-Pollutantmean <- function(directory, pollutant, id = 1:332){
+pollutantmean <- function(directory, pollutant, id = 1:332){
   dataframe <- data.frame()
   path <- c(getwd(),"/",directory,"/")
   for (i in seq_along(id)){
@@ -15,7 +15,5 @@ Pollutantmean <- function(directory, pollutant, id = 1:332){
     dataframe <- rbind(dataframe, read.csv(file = nextfile))
 
   }            
-
- tempvar<- dataframe[[pollutant]]
- round(mean(tempvar, na.rm=TRUE), 3)
+  round(mean(dataframe[[pollutant]], na.rm=TRUE), 3)
 }
