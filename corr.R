@@ -1,8 +1,9 @@
 corr <- function (directory, treshold=0){
   dataframe <- data.frame()
   completecase <- data.frame()
-  corfile <- vector()
-  id <- 1:332 # ----------------------------------> файлы для чтения
+  cordata <- vector("numeric")
+  corfile <- vector("numeric")
+  id <- 1:332  # ----------------> файлы для чтения
   path <- c(getwd(),"/",directory,"/")
   for (i in seq_along(id)){
     if (id[i] < 10) {
@@ -18,6 +19,7 @@ corr <- function (directory, treshold=0){
     filedata <- read.csv(file = nextfile)
     # проходимся по всем строкам и столбцам
     nobs <- 0
+
     completecasecurrentfile <-data.frame() # Обнуляем данные текущего файла
     nafound <- FALSE  #Если нашли NA вываливаемся из цикла
     for (j in 1:nrow(filedata)){
@@ -33,17 +35,18 @@ corr <- function (directory, treshold=0){
       }
       if (!nafound) {
         nobs <- nobs+1
-        completecasecurrentfile <- rbind(completecasecurrentfile, filedata[j, 2:3]) 
+        completecasecurrentfile <- rbind(completecasecurrentfile, filedata[j, ])
       }  
     }
     
-    if (nobs >= treshold){
-      cordata <- cor(completecasecurrentfile[, 1],completecasecurrentfile[,2])
-      corfile  <- c(corfile, round(cordata, 5) )
-      
-      
-    }
-    
+    if (nobs > treshold){
+      #print(nobs)
+      cordata <- cor(completecasecurrentfile[, 3],completecasecurrentfile[, 2])
+      #print(paste(c(filename," ",cordata), collapse=""))
+      corfile  <- c(corfile, cordata)
+      #print(corfile)      
+    }    
   }
+  if (length(corfile) < 1) corfile <- vector("numeric")
   return(corfile)
 }
